@@ -29,7 +29,7 @@ private:
     array<uint16_t, 16> stack;
 
     array<uint8_t, MEMORY_SIZE> memory;
-    array<uint16_t, 16> V; // Registradores V0 a VF
+    array<uint8_t, 16> V; // Registradores V0 a VF
     
     uint16_t I; // Registrador index
     uint16_t PC; // Program counter
