@@ -52,7 +52,8 @@ void Chip8::emulateCycle() {
     switch (opcode & 0xF000) {
         case 0x0000:
             switch (opcode & 0x00FF) {
-                case 0x00E0: // 00E0: Limpa a tela
+                // 00E0: Limpa a tela
+                case 0x00E0:
                     GrapBuffer.fill(0);
                     drawFlag = true;
                     PC += 2;
@@ -113,5 +114,14 @@ void Chip8::emulateCycle() {
             cerr << "Opcode desconhecido: " << hex << opcode << endl;
             PC += 2;
             break;
+    }
+}
+
+void Chip8::updateTimers() {
+    if (DT > 0) {
+        DT--;
+    }
+    if (ST > 0) {
+        ST--;
     }
 }

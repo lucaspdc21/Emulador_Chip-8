@@ -20,7 +20,10 @@ public:
     bool drawFlag; 
     void loadROM(const char *filename);
     void emulateCycle();
-
+    void updateTimers();
+    
+    uint8_t DT; // Delay timer
+    uint8_t ST; // Sound timer
 private:
     array<uint16_t, 16> stack;
 
@@ -29,11 +32,8 @@ private:
     
     uint16_t I; // Registrador index
     uint16_t PC; // Program counter
-    uint8_t DT; // Delay timer
-    uint8_t ST; // Sound timer
     uint16_t SP; // Stack pointer
 
-    void updateTimers();
 
 };
 
