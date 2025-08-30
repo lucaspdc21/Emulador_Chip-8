@@ -4,11 +4,14 @@
 #include "Display/display.h"
 #include "Audio/audio.h"
 #include "Loader/loader.h"
+#include "Keyboard/keyboard.h"
+#include <cstdlib>
+#include <ctime> 
 
 using namespace std;
 
 int main(int argc, char* argv[]){
-
+    srand(time(NULL));
     if (argc < 2) {
         cerr << "Uso: " << argv[0] << " <arquivo.rom>" << endl;
         return 1;
@@ -31,6 +34,12 @@ int main(int argc, char* argv[]){
 
     // Inicializando o evento SDL
     SDL_Event event;
+
+    // Velocidade da CPU
+    const int CPU_FREQUENCY_HZ = 540;
+    const int TIMER_FREQUENCY_HZ = 60;
+    const int CYCLES_PER_FRAME = CPU_FREQUENCY_HZ / TIMER_FREQUENCY_HZ;
+
     // Variável para controlar o loop principal
     bool running = true;
 
@@ -43,8 +52,22 @@ int main(int argc, char* argv[]){
             if (event.type == SDL_QUIT) {
                 running = false;
             }
+            Keyboard::update(chip8.keypad, event);
         }
-        chip8.emulateCycle();
+        Uint32 now = SDL_GetTicks();
+        if (now - lastTimerUpdate >= 1000 / TIMER_FREQUENCY_HZ) {
+            // Executa N ciclos da CPU
+            for (int i = 0; i < CYCLES_PER_FRAME; ++i) {
+                chip8.emulateCycle();
+            }
+            chip8.updateTimers();
+            if(chip8.ST > 0) {
+                audio.play();
+            } else {
+                audio.stop();
+            }
+            lastTimerUpdate = now;
+        }
         // Verifica o estado de drawFlag para redesenhar a tela
         if (chip8.drawFlag) {
             chip8.drawFlag = false;
@@ -57,16 +80,6 @@ int main(int argc, char* argv[]){
                 }
             }
             display.present();
-        }
-        Uint32 now = SDL_GetTicks();
-        if (now - lastTimerUpdate >= 1000 / 60) {
-            chip8.updateTimers();
-            if(chip8.ST > 0) {
-                audio.play();
-            } else {
-                audio.stop();
-            }
-            lastTimerUpdate = now;
         }
 
         SDL_Delay(5);
