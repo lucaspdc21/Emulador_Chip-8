@@ -3,6 +3,7 @@
 #include "Core/Chip8.h"
 #include "Display/display.h"
 #include "Audio/audio.h"
+#include "Loader/loader.h"
 
 using namespace std;
 

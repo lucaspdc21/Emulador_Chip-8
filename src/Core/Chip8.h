@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cstdint>
+#include <string>
 
 using namespace std;
 
@@ -18,9 +19,9 @@ public:
 
     // Indica quando devemos redesenhar a tela
     bool drawFlag; 
-    void loadROM(const char *filename);
     void emulateCycle();
     void updateTimers();
+    void loadROM(const string& romName);
     
     uint8_t DT; // Delay timer
     uint8_t ST; // Sound timer
