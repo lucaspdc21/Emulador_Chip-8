@@ -1,6 +1,6 @@
 # Padrão de Commit
 ## Formato
-- <tipo>(escopo opcional): <mensagem curta>
+- tipo(escopo opcional): mensagem curta
 
 ## Tipos 
 
