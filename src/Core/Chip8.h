@@ -18,6 +18,8 @@ public:
 
     // Indica quando devemos redesenhar a tela
     bool drawFlag; 
+    void loadROM(const char *filename);
+    void emulateCycle();
 
 private:
     array<uint16_t, 16> stack;
@@ -31,8 +33,6 @@ private:
     uint8_t ST; // Sound timer
     uint16_t SP; // Stack pointer
 
-    void loadROM(const char *filename);
-    void emulateCycle();
     void updateTimers();
 
 };
