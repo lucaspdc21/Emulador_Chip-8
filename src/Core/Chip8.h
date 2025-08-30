@@ -2,6 +2,7 @@
 #define CHIP8_H
 
 #include <array>
+#include <cstdint>
 
 using namespace std;
 

@@ -19,3 +19,27 @@ Chip8::Chip8() {
 }
 
 Chip8::~Chip8() {}
+
+void Chip8::loadROM(const char *filename) {
+    ifstream romFile(filename, ios::binary | ios::ate); // Abre como binário e vai para o final
+    if (!romFile) {
+        cerr << "Erro ao abrir o arquivo ROM: " << filename << endl;
+        return;
+    }
+
+    streamsize size = romFile.tellg(); // Captura o tamanho do arquivo
+    romFile.seekg(0, ios::beg);
+    // Retorna ao inicio do arquivo para leitura
+    romFile.seekg(0, std::ios::beg);
+    if (size > MEMORY_SIZE - 0x200) {
+        cerr << "Arquivo ROM muito grande: " << filename << endl;
+        return;
+    }
+
+    romFile.read(reinterpret_cast<char*>(&memory[0x200]), size);
+    if (!romFile) {
+        std::cerr << "Erro ao ler a ROM." << std::endl;
+        return;
+    }
+    romFile.close();
+}
